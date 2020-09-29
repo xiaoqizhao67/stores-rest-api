@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -8,7 +10,9 @@ from resources.store import Store, StoreList
 #from db import db
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///data.db")
+#DATABASE_URL is PostgreSQL related config vars
+#so that it can use both heroku and local sqlite database
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key="this should be a long secret_key"
 api = Api(app)
